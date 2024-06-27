@@ -1,0 +1,37 @@
+#Code Testing
+#Attach the following codes to your file and check whether your results are as expected:
+
+s0 = Stock(ncode='688419',data=full_data[full_data['code']=='688419']) 
+try:
+    print(s0.ncode)
+    print ("ncode is accessable")
+except:
+    print ("ncode not accessable")
+print("testing get_data")
+print(s0.get_data().head())
+print("testing change_data")
+print(s0.change_data(s0.get_data().head(2)))
+print(s0.get_data()) #this should return the first 2 rows of the original data
+print(s0.nt_date()) #this should return an empty list
+s1 = Stock(ncode='603133',data=full_data[full_data['code']=='603133']) 
+print(s1.nt_date()) #this stock has 3 non-trade dates within the date range
+print("testing Mport")
+m0 = Mport()
+print("testing Mport add_stock")
+m0.add_stock(s0)
+m0.add_stock(s1)
+print(m0.dport) #should see two Stock objects in in the dictionary
+print("testing Mport remove_stock")
+m0.remove_stock(s0.get_ncode())
+print(m0.remove_stock('123456')) #this should return a warning message
+print(m0.dport) #you should see m0 being removed
+s0 = Stock(ncode='688419',data=full_data[full_data['code']=='688419'])#create s0 again to bring in the original data
+m0.add_stock(s0) #adding it back to the portfolio
+print('testing _weight')
+print(m0.book)
+m0.set_weight({"688419":0.5}) #this is a good call
+print(m0.book)
+print(m0.set_weight({"688419":1.5})) #this is a bad call
+print("testing stat")
+print(m0.stat())
+
